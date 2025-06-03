@@ -2,7 +2,7 @@
 import axios from "axios";
 import { formatEther } from "ethers";
 
-const ETHERSCAN_API_KEY = "QDZPQ7RP1PKFNZG9592M7ET2Q9TE9KQIJD";
+const ETHERSCAN_API_KEY = "ZJGPNVKI9W7BQAD85BZC7PAATZGE33NQPE";
 const ETHERSCAN_API_URL = "https://api.etherscan.io/api";
 
 export interface Transaction {
