@@ -2,7 +2,8 @@ import axios from "axios";
 import { Transaction } from "../types/transactionTypes";
 
 // Default API key that can be overridden
-let ETHERSCAN_API_KEY = "YourAPIKeyHere"; // Default placeholder
+const DEFAULT_API_KEY = "ZJGPNVKI9W7BQAD85BZC7PAATZGE33NQPE";
+let ETHERSCAN_API_KEY = DEFAULT_API_KEY;
 const ETHERSCAN_API_URL = "https://api.etherscan.io/api";
 
 // Function to update the API key
@@ -22,19 +23,40 @@ export const setEtherscanApiKey = (apiKey: string) => {
   return false;
 };
 
-// Load API key from localStorage on initial load
+// Load API key from localStorage on initial load, fallback to default
 try {
   const savedApiKey = localStorage.getItem('etherscan_api_key');
-  if (savedApiKey) {
+  if (savedApiKey && savedApiKey.trim() !== '') {
     ETHERSCAN_API_KEY = savedApiKey;
+  } else {
+    // If no saved key, use default
+    ETHERSCAN_API_KEY = DEFAULT_API_KEY;
   }
 } catch (error) {
   console.error("Failed to load API key from localStorage:", error);
+  // Fallback to default on error
+  ETHERSCAN_API_KEY = DEFAULT_API_KEY;
 }
 
 // Function to get the current API key (masked for UI)
 export const getEtherscanApiKey = () => {
   return ETHERSCAN_API_KEY;
+};
+
+// Function to get the default API key
+export const getDefaultApiKey = () => {
+  return DEFAULT_API_KEY;
+};
+
+// Function to reset to default API key
+export const resetToDefaultApiKey = () => {
+  ETHERSCAN_API_KEY = DEFAULT_API_KEY;
+  try {
+    localStorage.removeItem('etherscan_api_key');
+  } catch (error) {
+    console.error("Failed to remove API key from localStorage:", error);
+  }
+  return true;
 };
 
 // Add timeout to axios requests
